@@ -17,11 +17,13 @@ import com.harliton.refeicoes_api.dto.CategoriaCreateDTO;
 import com.harliton.refeicoes_api.dto.CategoriaDTO;
 import com.harliton.refeicoes_api.service.CategoriaService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/categorias")
 @RequiredArgsConstructor
+@Tag(name = "Categorias", description = "Operações relacionadas às categorias de receitas")
 public class CategoriaController {
 
      private final CategoriaService categoriaService;
