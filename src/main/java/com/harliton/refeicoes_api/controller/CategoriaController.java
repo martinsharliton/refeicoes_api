@@ -13,34 +13,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.harliton.refeicoes_api.dto.CategoriaCreateDTO;
 import com.harliton.refeicoes_api.dto.CategoriaDTO;
-import com.harliton.refeicoes_api.model.Categoria;
 import com.harliton.refeicoes_api.service.CategoriaService;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequestMapping("/api/categorias")
 @RequiredArgsConstructor
-@RequestMapping("/api/categorias") // Define o prefixo da URL para este controller
-@Tag(name = "Categorias", description = "Categorias API. Contém operações relacionadas a categorias.")
 public class CategoriaController {
 
      private final CategoriaService categoriaService;
 
+     // CORREÇÃO: Retorna List<CategoriaDTO>
      @GetMapping
      public List<CategoriaDTO> listarCategorias() {
           return categoriaService.getAllCategorias();
      }
 
+     // CORREÇÃO: Retorna CategoriaDTO
      @GetMapping("/{id}")
-     public Categoria buscarCategoria(@PathVariable Long id) {
+     public CategoriaDTO buscarCategoria(@PathVariable Long id) {
           return categoriaService.getCategoriaById(id);
      }
 
+     // CORREÇÃO: Recebe CategoriaCreateDTO
      @PostMapping
-     public ResponseEntity<Categoria> criarCategoria(@RequestBody Categoria categoria) {
-          Categoria novaCategoria = categoriaService.createCategoria(categoria);
+     public ResponseEntity<CategoriaDTO> criarCategoria(@RequestBody CategoriaCreateDTO categoriaDTO) {
+          CategoriaDTO novaCategoria = categoriaService.createCategoria(categoriaDTO);
           return new ResponseEntity<>(novaCategoria, HttpStatus.CREATED);
      }
 

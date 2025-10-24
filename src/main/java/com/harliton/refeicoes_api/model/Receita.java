@@ -30,11 +30,8 @@ public class Receita {
     private Long id;
 
     private String titulo;
-
     private String descricao;
-
     private String imagemUrl;
-
     private int tempoPreparo;
 
     @Enumerated(EnumType.STRING)
@@ -46,6 +43,7 @@ public class Receita {
     @ElementCollection
     private List<String> passos;
 
+    // Esta relação está correta
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
