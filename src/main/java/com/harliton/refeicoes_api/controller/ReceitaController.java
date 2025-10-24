@@ -18,11 +18,13 @@ import com.harliton.refeicoes_api.enumeration.Dificuldade;
 import com.harliton.refeicoes_api.model.Receita;
 import com.harliton.refeicoes_api.service.ReceitaService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
+@RequestMapping("/api")
+@Tag(name = "Receitas", description = "Receitas API. Contém operações relacionadas a receitas.")
 public class ReceitaController {
 
      private final ReceitaService receitaService;
