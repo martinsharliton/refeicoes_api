@@ -1,9 +1,11 @@
 package com.harliton.refeicoes_api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.harliton.refeicoes_api.enumeration.Dificuldade;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,7 +17,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,14 +24,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Receita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String titulo;
+
+    @Column(columnDefinition = "TEXT")
     private String descricao;
+
+    @Column(columnDefinition = "TEXT")
     private String imagemUrl;
     private int tempoPreparo;
 
@@ -38,10 +42,10 @@ public class Receita {
     private Dificuldade dificuldade;
 
     @ElementCollection
-    private List<String> ingredientes;
+    private List<String> ingredientes = new ArrayList<>();
 
     @ElementCollection
-    private List<String> passos;
+    private List<String> passos = new ArrayList<>();
 
     // Esta relação está correta
     @ManyToOne(fetch = FetchType.LAZY)

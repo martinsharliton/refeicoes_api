@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +24,11 @@ public class Categoria {
      private Long id;
 
      private String titulo;
+     
+     @Column(columnDefinition = "TEXT")
      private String descricao;
+
+     @Column(columnDefinition = "TEXT")
      private String imagemUrl;
 
      @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)

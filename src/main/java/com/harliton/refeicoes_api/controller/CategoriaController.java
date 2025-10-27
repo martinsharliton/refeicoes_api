@@ -28,19 +28,19 @@ public class CategoriaController {
 
      private final CategoriaService categoriaService;
 
-     // CORREÇÃO: Retorna List<CategoriaDTO>
+     //Retorna List<CategoriaDTO>
      @GetMapping
      public List<CategoriaDTO> listarCategorias() {
           return categoriaService.getAllCategorias();
      }
 
-     // CORREÇÃO: Retorna CategoriaDTO
+     //Retorna CategoriaDTO
      @GetMapping("/{id}")
      public CategoriaDTO buscarCategoria(@PathVariable Long id) {
           return categoriaService.getCategoriaById(id);
      }
 
-     // CORREÇÃO: Recebe CategoriaCreateDTO
+     //Recebe CategoriaCreateDTO
      @PostMapping
      public ResponseEntity<CategoriaDTO> criarCategoria(@RequestBody CategoriaCreateDTO categoriaDTO) {
           CategoriaDTO novaCategoria = categoriaService.createCategoria(categoriaDTO);

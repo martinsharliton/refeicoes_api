@@ -28,7 +28,7 @@ public class ReceitaController {
 
      private final ReceitaService receitaService;
 
-     // CORREÇÃO: Recebe ReceitaCreateDTO
+     //Recebe ReceitaCreateDTO
      @PostMapping("/categorias/{categoriaId}/receitas")
      public ResponseEntity<ReceitaDTO> criarReceita(
                @PathVariable Long categoriaId,
@@ -37,13 +37,13 @@ public class ReceitaController {
           return new ResponseEntity<>(novaReceita, HttpStatus.CREATED);
      }
 
-     // CORREÇÃO: Retorna List<ReceitaDTO>
+     //Retorna List<ReceitaDTO>
      @GetMapping("/categorias/{categoriaId}/receitas")
      public List<ReceitaDTO> listarReceitasDaCategoria(@PathVariable Long categoriaId) {
           return receitaService.getReceitasByCategoria(categoriaId);
      }
 
-     // CORREÇÃO: Retorna ReceitaDTO
+     //Retorna ReceitaDTO
      @GetMapping("/receitas/{id}")
      public ReceitaDTO buscarReceita(@PathVariable Long id) {
           return receitaService.getReceitaById(id);
@@ -54,7 +54,4 @@ public class ReceitaController {
      public void deletarReceita(@PathVariable Long id) {
           receitaService.deleteReceita(id);
      }
-
-     // Nota: O endpoint de busca por dificuldade não foi incluído nos DTOs/Serviços
-     // mas pode ser adicionado seguindo o mesmo padrão.
 }
