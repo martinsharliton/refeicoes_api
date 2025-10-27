@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.harliton.refeicoes_api.dto.ItemDTO;
 import com.harliton.refeicoes_api.dto.ReceitaCreateDTO;
 import com.harliton.refeicoes_api.dto.ReceitaDTO;
 import com.harliton.refeicoes_api.service.ReceitaService;
@@ -28,7 +29,7 @@ public class ReceitaController {
 
      private final ReceitaService receitaService;
 
-     //Recebe ReceitaCreateDTO
+     // Recebe ReceitaCreateDTO
      @PostMapping("/categorias/{categoriaId}/receitas")
      public ResponseEntity<ReceitaDTO> criarReceita(
                @PathVariable Long categoriaId,
@@ -37,13 +38,13 @@ public class ReceitaController {
           return new ResponseEntity<>(novaReceita, HttpStatus.CREATED);
      }
 
-     //Retorna List<ReceitaDTO>
+     // Retorna List<ReceitaDTO>
      @GetMapping("/categorias/{categoriaId}/receitas")
      public List<ReceitaDTO> listarReceitasDaCategoria(@PathVariable Long categoriaId) {
           return receitaService.getReceitasByCategoria(categoriaId);
      }
 
-     //Retorna ReceitaDTO
+     // Retorna ReceitaDTO
      @GetMapping("/receitas/{id}")
      public ReceitaDTO buscarReceita(@PathVariable Long id) {
           return receitaService.getReceitaById(id);
@@ -53,5 +54,41 @@ public class ReceitaController {
      @ResponseStatus(HttpStatus.NO_CONTENT)
      public void deletarReceita(@PathVariable Long id) {
           receitaService.deleteReceita(id);
+     }
+
+     @PostMapping("/receitas/{id}/ingredientes")
+     public ReceitaDTO adicionarIngrediente(
+               @PathVariable Long id,
+               @RequestBody ItemDTO itemDTO) {
+
+          return receitaService.addIngrediente(id, itemDTO);
+     }
+
+     // Para o botão "+" de Passos
+     @PostMapping("/receitas/{id}/passos")
+     public ReceitaDTO adicionarPasso(
+               @PathVariable Long id,
+               @RequestBody ItemDTO itemDTO) {
+
+          return receitaService.addPasso(id, itemDTO);
+     }
+
+     // (Bônus) Para remover um ingrediente
+     // (Usando @DeleteMapping com o item no body)
+     @DeleteMapping("/receitas/{id}/ingredientes")
+     public ReceitaDTO removerIngrediente(
+               @PathVariable Long id,
+               @RequestBody ItemDTO itemDTO) {
+
+          return receitaService.removeIngrediente(id, itemDTO);
+     }
+
+     // (Bônus) Para remover um passo
+     @DeleteMapping("/receitas/{id}/passos")
+     public ReceitaDTO removerPasso(
+               @PathVariable Long id,
+               @RequestBody ItemDTO itemDTO) {
+
+          return receitaService.removePasso(id, itemDTO);
      }
 }

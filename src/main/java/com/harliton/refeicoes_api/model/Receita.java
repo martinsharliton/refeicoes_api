@@ -31,23 +31,26 @@ public class Receita {
 
     private String titulo;
 
+    // (Opcional, mas recomendado) Mude para TEXT
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
     @Column(columnDefinition = "TEXT")
     private String imagemUrl;
+
     private int tempoPreparo;
 
     @Enumerated(EnumType.STRING)
     private Dificuldade dificuldade;
 
+    // CORREÇÃO: Inicialize as listas
     @ElementCollection
     private List<String> ingredientes = new ArrayList<>();
 
+    // CORREÇÃO: Inicialize as listas
     @ElementCollection
     private List<String> passos = new ArrayList<>();
 
-    // Esta relação está correta
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;

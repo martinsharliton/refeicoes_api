@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.harliton.refeicoes_api.dto.CategoriaDTO;
+import com.harliton.refeicoes_api.dto.ItemDTO;
 import com.harliton.refeicoes_api.dto.ReceitaCreateDTO;
 import com.harliton.refeicoes_api.dto.ReceitaDTO;
 import com.harliton.refeicoes_api.exception.ResourceNotFoundException;
@@ -93,5 +94,48 @@ public class ReceitaService {
                dto.setCategoria(catDto);
           }
           return dto;
+     }
+
+     // --- PARA O BOTÃO '+' DE INGREDIENTES ---
+     public ReceitaDTO addIngrediente(Long receitaId, ItemDTO dto) {
+          Receita receita = receitaRepository.findById(receitaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
+
+          receita.getIngredientes().add(dto.getItem());
+
+          Receita receitaSalva = receitaRepository.save(receita);
+          return convertToReceitaDTO(receitaSalva);
+     }
+
+     // --- PARA O BOTÃO '+' DE PASSOS ---
+     public ReceitaDTO addPasso(Long receitaId, ItemDTO dto) {
+          Receita receita = receitaRepository.findById(receitaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
+
+          receita.getPassos().add(dto.getItem());
+
+          Receita receitaSalva = receitaRepository.save(receita);
+          return convertToReceitaDTO(receitaSalva);
+     }
+
+     // --- (BÔNUS) MÉTODOS PARA REMOVER ---
+     public ReceitaDTO removeIngrediente(Long receitaId, ItemDTO dto) {
+          Receita receita = receitaRepository.findById(receitaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada"));
+
+          receita.getIngredientes().remove(dto.getItem());
+
+          Receita receitaSalva = receitaRepository.save(receita);
+          return convertToReceitaDTO(receitaSalva);
+     }
+
+     public ReceitaDTO removePasso(Long receitaId, ItemDTO dto) {
+          Receita receita = receitaRepository.findById(receitaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada"));
+
+          receita.getPassos().remove(dto.getItem());
+
+          Receita receitaSalva = receitaRepository.save(receita);
+          return convertToReceitaDTO(receitaSalva);
      }
 }
