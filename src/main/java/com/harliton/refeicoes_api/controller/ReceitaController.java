@@ -91,4 +91,15 @@ public class ReceitaController {
 
           return receitaService.removePasso(id, itemDTO);
      }
+
+     @GetMapping("/receitas/{id}/ingredientes")
+     public List<String> listarIngredientes(@PathVariable Long id) {
+          return receitaService.getIngredientes(id);
+     }
+
+     // Endpoint para LISTAR todos os passos de UMA receita
+     @GetMapping("/receitas/{id}/passos")
+     public List<String> listarPassos(@PathVariable Long id) {
+          return receitaService.getPassos(id);
+     }
 }

@@ -1,5 +1,6 @@
 package com.harliton.refeicoes_api.dto;
 
+import java.util.ArrayList; // Importe
 import java.util.List;
 
 import com.harliton.refeicoes_api.enumeration.Dificuldade;
@@ -13,6 +14,6 @@ public class ReceitaCreateDTO {
      private String imagemUrl;
      private int tempoPreparo;
      private Dificuldade dificuldade;
-     private List<String> ingredientes;
-     private List<String> passos;
+     private List<String> ingredientes = new ArrayList<>();
+     private List<String> passos = new ArrayList<>();
 }

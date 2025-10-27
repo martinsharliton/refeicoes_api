@@ -138,4 +138,22 @@ public class ReceitaService {
           Receita receitaSalva = receitaRepository.save(receita);
           return convertToReceitaDTO(receitaSalva);
      }
+
+     public List<String> getIngredientes(Long receitaId) {
+          // 1. Busca a receita
+          Receita receita = receitaRepository.findById(receitaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
+
+          // 2. Retorna apenas a lista de ingredientes
+          return receita.getIngredientes();
+     }
+
+     public List<String> getPassos(Long receitaId) {
+          // 1. Busca a receita
+          Receita receita = receitaRepository.findById(receitaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
+
+          // 2. Retorna apenas a lista de passos
+          return receita.getPassos();
+     }
 }
