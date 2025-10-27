@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.harliton.refeicoes_api.dto.ItemDTO;
+import com.harliton.refeicoes_api.dto.ItemUpdateDTO;
 import com.harliton.refeicoes_api.dto.ReceitaCreateDTO;
 import com.harliton.refeicoes_api.dto.ReceitaDTO;
 import com.harliton.refeicoes_api.service.ReceitaService;
@@ -56,40 +58,62 @@ public class ReceitaController {
           receitaService.deleteReceita(id);
      }
 
+     // Dentro da classe ReceitaController...
+
+     // --- ENDPOINTS PARA GERENCIAR ITENS DA RECEITA ---
+
+     // ANTES: public ReceitaDTO adicionarIngrediente(...)
      @PostMapping("/receitas/{id}/ingredientes")
-     public ReceitaDTO adicionarIngrediente(
+     public List<String> adicionarIngrediente(
                @PathVariable Long id,
                @RequestBody ItemDTO itemDTO) {
 
           return receitaService.addIngrediente(id, itemDTO);
      }
 
-     // Para o botão "+" de Passos
+     // ANTES: public ReceitaDTO adicionarPasso(...)
      @PostMapping("/receitas/{id}/passos")
-     public ReceitaDTO adicionarPasso(
+     public List<String> adicionarPasso(
                @PathVariable Long id,
                @RequestBody ItemDTO itemDTO) {
 
           return receitaService.addPasso(id, itemDTO);
      }
 
-     // (Bônus) Para remover um ingrediente
-     // (Usando @DeleteMapping com o item no body)
+     // ANTES: public ReceitaDTO removerIngrediente(...)
      @DeleteMapping("/receitas/{id}/ingredientes")
-     public ReceitaDTO removerIngrediente(
+     public List<String> removerIngrediente(
                @PathVariable Long id,
                @RequestBody ItemDTO itemDTO) {
 
           return receitaService.removeIngrediente(id, itemDTO);
      }
 
-     // (Bônus) Para remover um passo
+     // ANTES: public ReceitaDTO removerPasso(...)
      @DeleteMapping("/receitas/{id}/passos")
-     public ReceitaDTO removerPasso(
+     public List<String> removerPasso(
                @PathVariable Long id,
                @RequestBody ItemDTO itemDTO) {
 
           return receitaService.removePasso(id, itemDTO);
+     }
+
+     // ANTES: public ReceitaDTO atualizarIngrediente(...)
+     @PutMapping("/receitas/{id}/ingredientes")
+     public List<String> atualizarIngrediente(
+               @PathVariable Long id,
+               @RequestBody ItemUpdateDTO itemUpdateDTO) {
+
+          return receitaService.updateIngrediente(id, itemUpdateDTO);
+     }
+
+     // ANTES: public ReceitaDTO atualizarPasso(...)
+     @PutMapping("/receitas/{id}/passos")
+     public List<String> atualizarPasso(
+               @PathVariable Long id,
+               @RequestBody ItemUpdateDTO itemUpdateDTO) {
+
+          return receitaService.updatePasso(id, itemUpdateDTO);
      }
 
      @GetMapping("/receitas/{id}/ingredientes")

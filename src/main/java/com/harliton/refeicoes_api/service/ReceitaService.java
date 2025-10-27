@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.harliton.refeicoes_api.dto.CategoriaDTO;
 import com.harliton.refeicoes_api.dto.ItemDTO;
+import com.harliton.refeicoes_api.dto.ItemUpdateDTO;
 import com.harliton.refeicoes_api.dto.ReceitaCreateDTO;
 import com.harliton.refeicoes_api.dto.ReceitaDTO;
 import com.harliton.refeicoes_api.exception.ResourceNotFoundException;
@@ -97,46 +98,85 @@ public class ReceitaService {
      }
 
      // --- PARA O BOTÃO '+' DE INGREDIENTES ---
-     public ReceitaDTO addIngrediente(Long receitaId, ItemDTO dto) {
+     // Dentro da classe ReceitaService...
+
+     // --- MÉTODOS PARA INGREDIENTES ---
+
+     // ANTES: public ReceitaDTO addIngrediente(...)
+     public List<String> addIngrediente(Long receitaId, ItemDTO dto) {
           Receita receita = receitaRepository.findById(receitaId)
                     .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
 
           receita.getIngredientes().add(dto.getItem());
-
           Receita receitaSalva = receitaRepository.save(receita);
-          return convertToReceitaDTO(receitaSalva);
+
+          // ANTES: return convertToReceitaDTO(receitaSalva);
+          return receitaSalva.getIngredientes(); // Retorna só a lista atualizada
      }
 
-     // --- PARA O BOTÃO '+' DE PASSOS ---
-     public ReceitaDTO addPasso(Long receitaId, ItemDTO dto) {
+     // ANTES: public ReceitaDTO removeIngrediente(...)
+     public List<String> removeIngrediente(Long receitaId, ItemDTO dto) {
+          Receita receita = receitaRepository.findById(receitaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
+
+          receita.getIngredientes().remove(dto.getItem());
+          Receita receitaSalva = receitaRepository.save(receita);
+
+          return receitaSalva.getIngredientes();
+     }
+
+     // ANTES: public ReceitaDTO updateIngrediente(...)
+     public List<String> updateIngrediente(Long receitaId, ItemUpdateDTO dto) {
+          Receita receita = receitaRepository.findById(receitaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
+
+          int index = receita.getIngredientes().indexOf(dto.getItemAntigo());
+          if (index == -1) {
+               throw new ResourceNotFoundException("Ingrediente '" + dto.getItemAntigo() + "' não encontrado.");
+          }
+          receita.getIngredientes().set(index, dto.getItemNovo());
+
+          Receita receitaSalva = receitaRepository.save(receita);
+          return receitaSalva.getIngredientes();
+     }
+
+     // --- MÉTODOS PARA PASSOS ---
+
+     // ANTES: public ReceitaDTO addPasso(...)
+     public List<String> addPasso(Long receitaId, ItemDTO dto) {
           Receita receita = receitaRepository.findById(receitaId)
                     .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
 
           receita.getPassos().add(dto.getItem());
-
           Receita receitaSalva = receitaRepository.save(receita);
-          return convertToReceitaDTO(receitaSalva);
+
+          return receitaSalva.getPassos(); // Retorna só a lista atualizada
      }
 
-     // --- (BÔNUS) MÉTODOS PARA REMOVER ---
-     public ReceitaDTO removeIngrediente(Long receitaId, ItemDTO dto) {
+     // ANTES: public ReceitaDTO removePasso(...)
+     public List<String> removePasso(Long receitaId, ItemDTO dto) {
           Receita receita = receitaRepository.findById(receitaId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada"));
-
-          receita.getIngredientes().remove(dto.getItem());
-
-          Receita receitaSalva = receitaRepository.save(receita);
-          return convertToReceitaDTO(receitaSalva);
-     }
-
-     public ReceitaDTO removePasso(Long receitaId, ItemDTO dto) {
-          Receita receita = receitaRepository.findById(receitaId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
 
           receita.getPassos().remove(dto.getItem());
+          Receita receitaSalva = receitaRepository.save(receita);
+
+          return receitaSalva.getPassos();
+     }
+
+     // ANTES: public ReceitaDTO updatePasso(...)
+     public List<String> updatePasso(Long receitaId, ItemUpdateDTO dto) {
+          Receita receita = receitaRepository.findById(receitaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Receita não encontrada com id: " + receitaId));
+
+          int index = receita.getPassos().indexOf(dto.getItemAntigo());
+          if (index == -1) {
+               throw new ResourceNotFoundException("Passo '" + dto.getItemAntigo() + "' não encontrado.");
+          }
+          receita.getPassos().set(index, dto.getItemNovo());
 
           Receita receitaSalva = receitaRepository.save(receita);
-          return convertToReceitaDTO(receitaSalva);
+          return receitaSalva.getPassos();
      }
 
      public List<String> getIngredientes(Long receitaId) {
